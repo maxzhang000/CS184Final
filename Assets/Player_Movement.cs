@@ -5,6 +5,9 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    public GameObject Spawn1;
+
     void Start()
     {
 		_charCont = GetComponent<CharacterController>();
@@ -26,5 +29,9 @@ public class Player_Movement : MonoBehaviour
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
         _charCont.Move(movement);
+
+        if (transform.position.y < 0){
+            transform.position = Spawn1.transform.position;
+        } 
     }
 }
