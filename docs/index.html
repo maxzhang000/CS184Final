@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<title>CS 184 Final</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+</head>
+<body>
+<br>
+<h1 align="middle">Final Project: Tightrope VR</h1>
+<h2 align="middle">Ariel Liu， Roshan Krishnan， Max Zhang</h2>
+<div align="center">
+	<img align="middle" src="images/Tightrope.png" width="400px" />
+
+
+<h2 align="middle">Abstract</h2>
+        <p align="left" style="max-width:800px;">The goal of VR is to create a immersive experience that allows the user to use an application from a unique perspective. In class we learned about VR mapping and rendering. Creating an game in vr is challenging because of both the aesthetic and technical elements needed to create an immersive and functional game. We created a minimalistic game that encapsulates an experience that many users might want to try in real life, but do not have the abilities or environment to do so. This also encourages immersion by allowing the game to look crisp while still preserving frame rates that are required for a enjoyable VR experience. <br><br>This project is a virtual reality tightrope game built with the Unity game engine for Android, IOS, and Windows platforms. To enable VR, the Android or IOS device should be paired with a Google Cardboard Headset. This project uses various techniques to generate images compatible for vr, translate real world coordinates to game coordinates, and simulate realistic human movement.</p>
+<h2 align="middle">Technical Approach</h2>
+<h3 align="middle">Phone to World Transform</h3>
+		<p align="left" style="max-width:800px;">A user enters a VR environment under their own “perspective” and observes and interacts with the environment by using their VR headset. Often, the rotation of the user's head directly translates to the same rotation in the VR environment. <br><br>Android and IOS phones determine their orientation with roll pitch and yaw in reference to the 3 cardinal axes. 
+		</p>
+		<div align="center"><img src="images/p2w1.png" width="250px" /></div>
+		<p align="left" style="max-width:800px;">The Andriod and IOS APIs both have functions that give the constants for transformation matricies for the x, y and z axis. <br><br>The transformation matrices for rotation in the z (yaw), y (pitch), and x (roll) axes are below:</p>
+		<div align="center"><img src="images/p2w2.png" width="250px" /><img src="images/p2w3.png" width="250px" /><img src="images/p2w4.png" width="250px" /></div>
+		<p align="left" style="max-width:800px;">By multiplying these matrices together we can achieve a single 3D rotation matrix:</p>
+		<div align="center"><img src="images/p2w5.png" width="750px" /></div>
+		<p align="left" style="max-width:800px;">This matrix applies the transformations in the order: roll, pitch, yaw. In order to maintain the integrity of the movement measured by the headset device, the order of matrix multiplications must also be preserved.<br><br> The native coordinate system on Android, IOS, and Unity are all different, so these transformation matrices need to be multiplied by a change of axis matrix based on the specific headset device that is used to run the application. </p>
+
+<h3 align="middle">VR Rendering</h3>
+	<p align="left" style="max-width:800px;"> Not only do VR applications need to deliver two copies of the original image from two different camera perspectives, it also must transform the original image so that the eye can see the proper left or right image through the VR lens. This must also be done at a constant and high framerate in order to prevent motion sickness.
+
+	The google cardboard lenses come as a pair of biconvex lenses with a diameter of 25mm and a focal length of 45mm.
+	</p>
+
+<h3 align="middle">Head Wobble Simulation</h3>
+	
+	<p align="left" style="max-width:800px;">With the previous two techniques, the game was now playable. The problem, however, was that the gameplay was too simple. Once the player was used to the controls, they simply had to orient their camera facing the same orientation as the tightrope, and lean their head to walk forward. Even on more complex levels with slopes, turns and obstacles, the core gameplay was too simple. This detracted from the replayability and immersiveness of the project. <br><br>To make gameplay more complex, we decided to model the character's walking with how humans walk. When real humans walk, the torso leans forward and lowers closer to the ground, and the body sways slightly towards the leading leg:</p>
+	<div align="center"><img src="images/sim.png" width="400px" /></div>
+
+	<p align="left" style="max-width:800px;">To model this motion, we decided to implement three different sinusoids to model the three different rotations in the x, y and z axes. Regular human walking without torso or neck adjustment resulted in rather large coefficients for how much the torso and head would sway, and implementing such additional rotation to the game resulted in motion sickness in testing, so these coefficients were decreased in the final version. This still gives the player a more natural feel and increases the difficulty of the game, but does not decrease comfort and accessibility.</p>
+<h2 align="middle">Results</h2>
+
+	<p align="left" style="max-width:800px;">The results of this project can be seen in this video demonstration: </p>
+
+	<p align="left" style="max-width:800px;">Github link: </p>
+	<a href="https://github.com/maxzhang000/CS184Final">VR Tightrope Repository</a>
+
+
+<h2 align="middle">Contributions</h2>
+
+	<p align="left" style="max-width:800px;">Roshan Krishnan:<br>Handled testing on Android and Google Cardboard to ensure quality and lack of motion sickness. Worked on implementing character movement and camera angles.</p>
+
+	<p align="left" style="max-width:800px;">Max Zhang:<br>Level creation, implementation of human body kinematics and VR mapping.</p>
+
+	<p align="left" style="max-width:800px;">Ariel Liu: <br>Research on VR and human body kinematics.</p>
+
+<h2 align="middle">References</h2>
+</div>
+</body>
+</html>
+
+
+
+
